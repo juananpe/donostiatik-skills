@@ -1,15 +1,6 @@
 # Dependencies
 node_modules/
 
-# Generated documents
-*.docx
-
-# Generated images
-news_image.jpg
-img1_*.jpg
-img2_*.jpg
-img3_*.jpg
-
 # OS files
 .DS_Store
 
