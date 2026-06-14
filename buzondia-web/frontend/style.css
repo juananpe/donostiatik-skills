@@ -1,0 +1,194 @@
+/* ── Reset & base ──────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg: #f4f6f9;
+    --card-bg: #ffffff;
+    --primary: #1a56db;
+    --primary-light: #e8effd;
+    --text: #1f2a44;
+    --text-secondary: #6b7280;
+    --border: #e5e7eb;
+    --tag-quejas: #fee2e2;
+    --tag-quejas-text: #b91c1c;
+    --tag-consultas: #dbeafe;
+    --tag-consultas-text: #1e40af;
+    --tag-avisos: #fef3c7;
+    --tag-avisos-text: #92400e;
+    --tag-propuestas: #d1fae5;
+    --tag-propuestas-text: #065f46;
+    --tag-agradecimientos: #ede9fe;
+    --tag-agradecimientos-text: #5b21b6;
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ── Header ───────────────────────────────────── */
+header {
+    background: linear-gradient(135deg, #1a56db 0%, #1e3a8a 100%);
+    color: #fff;
+    padding: 2rem 1.5rem;
+    text-align: center;
+}
+header h1 { font-size: 1.8rem; font-weight: 700; }
+header .subtitle { margin-top: .3rem; opacity: .85; font-size: .95rem; }
+
+/* ── Main layout ──────────────────────────────── */
+main {
+    max-width: 1100px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+}
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+h2 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--primary); }
+
+/* ── Tabs ─────────────────────────────────────── */
+.tabs {
+    display: flex;
+    gap: .5rem;
+    margin-bottom: 0;
+}
+.tab {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: .6rem 1.4rem;
+    border-radius: var(--radius) var(--radius) 0 0;
+    cursor: pointer;
+    font-size: .95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all .15s;
+}
+.tab:hover { color: var(--primary); }
+.tab.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+.tab-content { display: none; border-radius: 0 var(--radius) var(--radius) var(--radius); }
+.tab-content.active { display: block; }
+#tab-preguntas { border-radius: 0 var(--radius) var(--radius) var(--radius); }
+
+/* ── Table ────────────────────────────────────── */
+.table-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+.search-input {
+    padding: .5rem .8rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: .9rem;
+    width: 280px;
+    outline: none;
+    transition: border-color .15s;
+}
+.search-input:focus { border-color: var(--primary); }
+.count { color: var(--text-secondary); font-size: .85rem; }
+
+.table-wrapper {
+    overflow-x: auto;
+    max-height: 55vh;
+    overflow-y: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .9rem;
+}
+thead th {
+    position: sticky;
+    top: 0;
+    background: #f8fafc;
+    text-align: left;
+    padding: .65rem .8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+}
+tbody td {
+    padding: .6rem .8rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+tbody tr:hover { background: #f8fafc; }
+td:nth-child(2) { max-width: 340px; }
+td:nth-child(3) { max-width: 360px; }
+
+/* ── Category tags ────────────────────────────── */
+.tag {
+    display: inline-block;
+    padding: .15rem .55rem;
+    border-radius: 12px;
+    font-size: .78rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.tag-quejas     { background: var(--tag-quejas); color: var(--tag-quejas-text); }
+.tag-consultas  { background: var(--tag-consultas); color: var(--tag-consultas-text); }
+.tag-avisos     { background: var(--tag-avisos); color: var(--tag-avisos-text); }
+.tag-propuestas { background: var(--tag-propuestas); color: var(--tag-propuestas-text); }
+.tag-agradecimientos { background: var(--tag-agradecimientos); color: var(--tag-agradecimientos-text); }
+
+/* ── Resumen stats ────────────────────────────── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+.stat-box {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid var(--border);
+}
+.stat-box .stat-num {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+.stat-box .stat-label {
+    font-size: .82rem;
+    color: var(--text-secondary);
+    margin-top: .2rem;
+}
+
+/* ── Loading / error ──────────────────────────── */
+.loading { color: var(--text-secondary); font-style: italic; }
+.error { color: #b91c1c; background: #fee2e2; padding: .8rem; border-radius: 6px; }
+
+/* ── Footer ───────────────────────────────────── */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--text-secondary);
+    font-size: .82rem;
+}
+footer code { background: #e5e7eb; padding: .1rem .4rem; border-radius: 4px; font-size: .8rem; }
+
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 640px) {
+    header h1 { font-size: 1.4rem; }
+    .search-input { width: 100%; }
+    td:nth-child(2), td:nth-child(3) { max-width: 200px; }
+}

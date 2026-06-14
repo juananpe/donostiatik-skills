@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buzón Donostia — Consultas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>📬 Buzón Ciudadano — Donostia</h1>
+    <p class="subtitle">Consulta de preguntas y respuestas históricas</p>
+</header>
+
+<main>
+    <!-- Resumen -->
+    <section class="card" id="resumen-section">
+        <h2>📊 Resumen</h2>
+        <div id="resumen-content">Cargando…</div>
+    </section>
+
+    <!-- Pestañas -->
+    <section class="tabs">
+        <button class="tab active" data-tab="preguntas">📝 Preguntas</button>
+        <button class="tab" data-tab="respuestas">💬 Respuestas</button>
+    </section>
+
+    <!-- Tabla de Preguntas -->
+    <section class="card tab-content active" id="tab-preguntas">
+        <div class="table-actions">
+            <input type="text" id="search-preguntas" placeholder="🔍 Filtrar preguntas…" class="search-input">
+            <span class="count" id="count-preguntas"></span>
+        </div>
+        <div class="table-wrapper">
+            <table id="table-preguntas">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Pregunta</th>
+                        <th>Categoría</th>
+                        <th>Tema</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Tabla de Respuestas -->
+    <section class="card tab-content" id="tab-respuestas">
+        <div class="table-actions">
+            <input type="text" id="search-respuestas" placeholder="🔍 Filtrar respuestas…" class="search-input">
+            <span class="count" id="count-respuestas"></span>
+        </div>
+        <div class="table-wrapper">
+            <table id="table-respuestas">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Pregunta</th>
+                        <th>Respuesta</th>
+                        <th>Categoría</th>
+                        <th>Tema</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Datos de <code>db2.ikasten.dev:50000/BUZONDIA</code> — IBM DB2 Community Edition</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
