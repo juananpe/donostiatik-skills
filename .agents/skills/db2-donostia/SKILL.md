@@ -54,6 +54,41 @@ ibm_db.close(conn)
 
 **Nota**: Cada llamada a `ibm_db.exec_immediate` usa una transacción independiente. Si necesitas múltiples consultas en secuencia, re-conecta o usa `ibm_db.autocommit`.
 
+## 🪟 Windows (PowerShell) — puesta en marcha rápida
+
+Atajos para no perder tiempo en Windows:
+
+1. **Instalar el driver** (solo la primera vez). El paquete `ibm_db` incluye el `clidriver` de DB2, **no** hace falta instalar el cliente IBM aparte:
+   ```powershell
+   pip install ibm_db
+   python -c "import ibm_db; print(ibm_db.__version__)"   # verificar
+   ```
+
+2. **No uses `python -c "..."` con comillas, acentos o `¿`**: PowerShell los destroza. Escribe un `.py` temporal y ejecútalo.
+
+3. **Password sin exponerla**: pídela con `Read-Host -AsSecureString` y pásala por variable de entorno (el script lee `os.environ["DB2_PASSWORD"]`):
+   ```powershell
+   $sec = Read-Host "Password DB2 (db2inst1)" -AsSecureString
+   $env:DB2_PASSWORD = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($sec))
+   python add_pregunta.py
+   ```
+
+4. **Insertar una pregunta nueva** con ID auto (`MAX(ID)+1`, formato `qNNN`). Usa `prepare` + `bind_param` para evitar problemas de escapado con acentos y comillas:
+   ```python
+   insert_sql = ("INSERT INTO PREGUNTAS_HISTORICAS (ID, PREGUNTA, CATEGORIA, TEMA, CREATED_TS) "
+                 "VALUES (?, ?, ?, ?, CURRENT TIMESTAMP)")
+   stmt = ibm_db.prepare(conn, insert_sql)
+   ibm_db.bind_param(stmt, 1, new_id)
+   ibm_db.bind_param(stmt, 2, pregunta)
+   ibm_db.bind_param(stmt, 3, categoria)
+   ibm_db.bind_param(stmt, 4, tema)
+   ibm_db.execute(stmt)
+   ```
+
+5. **Verificar**: `SELECT COUNT(*) FROM PREGUNTAS_HISTORICAS` y `SELECT * FROM PREGUNTAS_HISTORICAS WHERE ID = 'qNNN'`.
+
+> ⚠️ **`add_pregunta.py` es solo un EJEMPLO/plantilla**, no un script a reutilizar tal cual. Contiene una pregunta concreta hardcodeada; **cada vez hay que escribir una pregunta nueva y distinta** (texto, categoría y tema propios). Cópialo como base, cambia `PREGUNTA`/`CATEGORIA`/`TEMA` (o pásalos por argumentos) y ejecútalo. Nunca reinsertes la misma pregunta.
+
 ## Conexión desde DBeaver / cliente SQL genérico
 
 - **JDBC URL**: `jdbc:db2://db2.ikasten.dev:50000/BUZONDIA`
@@ -125,6 +160,12 @@ dig +short db2.ikasten.dev    # debe devolver 65.109.20.113
 
 # TCP
 nc -z db2.ikasten.dev 50000   # debe decir "succeeded" o salir con código 0
+```
+
+**Windows (PowerShell)** — `dig` y `nc` no existen; usa:
+```powershell
+Resolve-DnsName db2.ikasten.dev | Select-Object Name,IPAddress
+Test-NetConnection db2.ikasten.dev -Port 50000   # TcpTestSucceeded : True
 ```
 
 ## Archivos del proyecto
